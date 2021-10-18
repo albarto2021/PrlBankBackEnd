@@ -1,6 +1,8 @@
 package com.bank.prl.service;
 
+import com.bank.prl.dao.AccountDAO;
 import com.bank.prl.dao.UserDAO;
+import com.bank.prl.model.Account;
 import com.bank.prl.model.User;
 import com.bank.prl.service.impl.UserDetailServiceImpl;
 
@@ -17,5 +19,7 @@ public interface UserService {
     List<UserDAO> getAllUsers();
     //void updateUser(String ssn, User user);
     void updateUser(User user);
+    void deleteUser(Long id);
     UserDetails loadUserByUsername(String ssn);
+    AccountDAO transformAccountDAO(Account account);
 }

@@ -1,23 +1,17 @@
-package com.bank.prl.model;
+package com.bank.prl.dao;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
-
-import java.util.List;
-
-@Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-public class Account {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "account_id")
+public class AccountDAO {
     private Long id;
 
     private String description;
@@ -28,16 +22,7 @@ public class Account {
     private Date closedDate;
     private String Employee;
 
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
- //   @JsonIgnore
-    private User user;
-
-    @OneToMany(mappedBy="account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Transaction> transactions;
-
-    public Account(String description, BigDecimal accountBalance, String accountType, String accountStatusType, Date createDate, Date closedDate, String employee) {
+    public AccountDAO(String description, BigDecimal accountBalance, String accountType, String accountStatusType, Date createDate, Date closedDate, String employee) {
         this.description = description;
         this.accountBalance = accountBalance;
         this.accountType = accountType;
@@ -46,5 +31,4 @@ public class Account {
         this.closedDate = closedDate;
         Employee = employee;
     }
-
 }

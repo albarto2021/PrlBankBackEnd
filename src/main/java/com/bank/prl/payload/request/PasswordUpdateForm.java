@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class PasswordUpdateForm {
 		
-		private String ssn;
+	
 		
 	   private String oldPassword;
 	   

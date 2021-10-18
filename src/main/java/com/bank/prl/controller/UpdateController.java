@@ -59,30 +59,56 @@ public class UpdateController {
         return new ResponseEntity<>(updateResponse, HttpStatus.OK);
     }
     
-    @PatchMapping("/updatePassword")
-    public ResponseEntity<UpdateResponse> updatePassword(@Valid @RequestBody PasswordUpdateForm passwordUpdateForm,
-                                                        HttpServletRequest request){
+    @PatchMapping("/updatePassword/{id}")
+    public ResponseEntity<UpdateResponse> updatePassword(@Valid @PathVariable Long id, @RequestBody PasswordUpdateForm passwordUpdateForm
+                                                        ){
         UpdateResponse updateResponse = new UpdateResponse();
 
-        String ssn = (String) request.getAttribute("ssn");
+//        String ssn = (String) request.getAttribute("ssn");
+        System.out.println("burdayim");
         
-        System.out.println(passwordUpdateForm.getSsn());
+//        System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+//        
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        User user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
+        
+        System.out.println(user.getSsn());
         
 //        User user= (User) userService.loadUserByUsername(passwordUpdateForm.getSsn());
         
-        User user= (User) userService.loadUserByUsername(ssn);
+//        User user= (User) userService.loadUserByUsername(ssn);
         
-        System.out.println(passwordUpdateForm.getSsn());
+//        buradan itibaren yeni
+        UserDAO userDAO=userService.getUserDAO(user);
+        if(encoder.matches(passwordUpdateForm.getOldPassword(), user.getPassword())) {
+        	user.setPassword(encoder.encode(passwordUpdateForm.getNewPassword()));
+        	userService.updateUser(user);
+            
+        	updateResponse.setMessage("User has been successfully modified");
+            updateResponse.setIsSuccess(true);
+            updateResponse.setUserDAO(userDAO);
+
+            return new ResponseEntity<>(updateResponse, HttpStatus.OK);
+        } else {
+        	updateResponse.setIsSuccess(false);
+        	updateResponse.setMessage("Password doesnt match");
+        	updateResponse.setUserDAO(userDAO);
+        	
+        	return new ResponseEntity<>(updateResponse, HttpStatus.ACCEPTED);
+        }
         
-        user.setPassword(encoder.encode(passwordUpdateForm.getNewPassword()));
+//        user.setPassword(encoder.encode(passwordUpdateForm.getNewPassword()));
 
-        userService.updateUser(user);
- 
-
-        updateResponse.setMessage("User has been successfully modified");
-        updateResponse.setIsSuccess(true);
-
-        return new ResponseEntity<>(updateResponse, HttpStatus.OK);
+//        userService.updateUser(user);
+//        UserDAO userDAO=userService.getUserDAO(user);
+// 
+//
+//        updateResponse.setMessage("User has been successfully modified");
+//        updateResponse.setIsSuccess(true);
+//        updateResponse.setUserDAO(userDAO);
+//
+//        return new ResponseEntity<>(updateResponse, HttpStatus.OK);
     }
     
 }

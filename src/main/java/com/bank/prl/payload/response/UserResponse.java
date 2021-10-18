@@ -5,12 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
-public class Response {
-
-    boolean isSuccess;
-    String message;
-    private UserDAO userDAO;
+public class UserResponse {
+    List<UserDAO> userDAOList;
 }
