@@ -26,11 +26,11 @@ public class AccountServiceImpl  implements AccountService {
     public void transfer(TransferRequest transferRequest) {
 
         Account fromAccount = accountRepo.
-                                findById(transferRequest.getFromAccount().getId()).
+                                findById(transferRequest.getFromAccount()).
                                 orElseThrow(()-> new RuntimeException("From Account Bulunamadı"));
 
         Account toAccount = accountRepo.
-                                findById(transferRequest.getToAccount().getId()).
+                                findById(transferRequest.getToAccount()).
                                 orElseThrow(()-> new RuntimeException("To Account Bulunamadı"));
 
 

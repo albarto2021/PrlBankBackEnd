@@ -37,7 +37,8 @@ public class Account {
     @OneToMany(mappedBy="account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Transaction> transactions;
 
-    public Account(String description, BigDecimal accountBalance, String accountType, String accountStatusType, Date createDate, Date closedDate, String employee) {
+    public Account(String description, BigDecimal accountBalance, String accountType,
+                   String accountStatusType, Date createDate, Date closedDate, String employee) {
         this.description = description;
         this.accountBalance = accountBalance;
         this.accountType = accountType;

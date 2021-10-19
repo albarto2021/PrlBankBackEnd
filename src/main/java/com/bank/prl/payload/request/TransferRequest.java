@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 public class TransferRequest {
 
-    private Account fromAccount;
+    private Long fromAccount;
 
-    private Account toAccount;
+    private Long toAccount;
 
     private Double amount;
 

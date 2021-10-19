@@ -1,12 +1,16 @@
 package com.bank.prl.dao;
 
+import com.bank.prl.model.Role;
+import com.bank.prl.model.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -24,6 +28,7 @@ public class UserDAO {
     private String password;
     private Boolean isAdmin;
     private Boolean isEmployee;
+    private Set<UserRole> userRoles;
 
     /////////////
     private Long accountNumber;

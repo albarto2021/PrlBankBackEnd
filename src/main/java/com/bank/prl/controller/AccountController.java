@@ -44,12 +44,13 @@ public class AccountController {
 
 
 
-    @PostMapping("/createAccount")
-    public ResponseEntity<Response> createAccount(@Valid @RequestBody CreateAccountForm createAccountForm){
+    @PostMapping("/createAccount/{id}")
+    public ResponseEntity<Response> createAccount(@Valid @PathVariable Long id,
+                                                  @RequestBody CreateAccountForm createAccountForm){
 
         Response response = new Response();
         System.out.println("deneme");
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
     // OLUP OLMAMASI DÜŞÜNÜLECEK
   //      if (accountRepo.existsByDescription(createAccountForm.getDescription()) &&
@@ -58,6 +59,9 @@ public class AccountController {
   //          response.setSuccess(false);
   //          return new ResponseEntity<>(response, HttpStatus.OK);
   //      }
+        User user = userRepo.findById(id).orElseThrow(()->new RuntimeException("Not found"));
+
+
 
         //Create a new account
         Account account = new Account(
@@ -70,7 +74,8 @@ public class AccountController {
                 createAccountForm.getEmployee()
         );
 
-        user.setAccount((List<Account>) account);
+        //user.setAccount((List<Account>) account);
+
 
         accountService.createAccount(account);
 

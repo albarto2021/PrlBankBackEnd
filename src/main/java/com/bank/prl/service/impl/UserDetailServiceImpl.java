@@ -36,6 +36,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
         userDAO.setEmail(user.getEmail());
         userDAO.setUsername(user.getUsername());
         userDAO.setPassword(user.getPassword());
+        userDAO.setUserRoles(user.getUserRoles());
         Boolean isAdmin = user.getUserRoles().
                             stream().anyMatch( role -> role.getRole().getName().equals("ADMIN"));
         Boolean isEmployee = user.getUserRoles().
@@ -54,6 +55,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
 
         AccountDAO accountDAO = new AccountDAO();
 
+        accountDAO.setId(account.getId());
         accountDAO.setDescription(account.getDescription());
         accountDAO.setAccountBalance(account.getAccountBalance());
         accountDAO.setAccountType(account.getAccountType());
