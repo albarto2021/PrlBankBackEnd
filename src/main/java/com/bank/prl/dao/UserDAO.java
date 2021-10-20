@@ -28,11 +28,11 @@ public class UserDAO {
     private String password;
     private Boolean isAdmin;
     private Boolean isEmployee;
-    private Set<UserRole> userRoles;
+    //private Set<UserRole> userRoles;
 
     /////////////
-    private Long accountNumber;
-    private BigDecimal accountBalance;
-    private List<TransactionDAO> transactions;
+    //private Long accountNumber;
+    //private BigDecimal accountBalance;
+    //private List<TransactionDAO> transactions;
     private List<AccountDAO> accounts;
 }

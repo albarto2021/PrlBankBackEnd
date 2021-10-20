@@ -40,4 +40,15 @@ public class AdminController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/admin/singleUserDetails/{id}")
+    public ResponseEntity<Response> getSingleUser(@PathVariable Long id){
+        Response response = new Response();
+        UserDAO userDAO = userService.getUserDAOById(id);
+        response.setSuccess(true);
+        response.setMessage("User found");
+        response.setUserDAO(userDAO);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
+    }
 }

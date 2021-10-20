@@ -22,4 +22,5 @@ public interface UserService {
     void deleteUser(Long id);
     UserDetails loadUserByUsername(String ssn);
     AccountDAO transformAccountDAO(Account account);
+    UserDAO getUserDAOById(Long id);
 }

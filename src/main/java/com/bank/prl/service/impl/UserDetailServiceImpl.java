@@ -36,7 +36,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
         userDAO.setEmail(user.getEmail());
         userDAO.setUsername(user.getUsername());
         userDAO.setPassword(user.getPassword());
-        userDAO.setUserRoles(user.getUserRoles());
+        //userDAO.setUserRoles(user.getUserRoles());
         Boolean isAdmin = user.getUserRoles().
                             stream().anyMatch( role -> role.getRole().getName().equals("ADMIN"));
         Boolean isEmployee = user.getUserRoles().
@@ -65,6 +65,13 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
         accountDAO.setEmployee(account.getEmployee());
 
         return  accountDAO;
+    }
+
+    @Override
+    public UserDAO getUserDAOById(Long id) {
+        User user = userRepo.findById(id).orElseThrow(()-> new RuntimeException("Not found"));
+        UserDAO userDAO = getUserDAO(user);
+        return userDAO;
     }
 
     @Override
