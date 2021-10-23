@@ -87,6 +87,7 @@ public class LoginController {
         Set<String> stringRoles = new HashSet(); // the ones come from signup form
         Set<UserRole> userRoles = new HashSet(); // the ones we'll store
 
+
         stringRoles.forEach( roleName -> {
             Role role = roleRepo.findByName(roleName).
                         orElseThrow( () -> new RuntimeException("User Role not found"));
@@ -113,6 +114,7 @@ public class LoginController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         User user = (User) authentication.getPrincipal();
+
 
         String jwt = jwtUtil.generateToken(authentication);
 

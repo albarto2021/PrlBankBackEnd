@@ -28,6 +28,7 @@ public class UserDAO {
     private String password;
     private Boolean isAdmin;
     private Boolean isEmployee;
+    private Boolean isUser;
     //private Set<UserRole> userRoles;
 
     /////////////

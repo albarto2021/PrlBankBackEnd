@@ -36,13 +36,21 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
         userDAO.setEmail(user.getEmail());
         userDAO.setUsername(user.getUsername());
         userDAO.setPassword(user.getPassword());
-        //userDAO.setUserRoles(user.getUserRoles());
+
         Boolean isAdmin = user.getUserRoles().
                             stream().anyMatch( role -> role.getRole().getName().equals("ADMIN"));
         Boolean isEmployee = user.getUserRoles().
                 stream().anyMatch( role -> role.getRole().getName().equals("EMPLOYEE"));
+        Boolean isUser;
+        if(!isAdmin && !isEmployee) isUser = true;
+        else{
+            isUser = user.getUserRoles().
+                    stream().anyMatch( role -> role.getRole().getName().equals("USER"));
+        }
+
         userDAO.setIsAdmin(isAdmin);
         userDAO.setIsEmployee(isEmployee);
+        userDAO.setIsUser(isUser);
         List<AccountDAO> newAccountDAOs = user.getAccount().stream().map(this::transformAccountDAO).collect(Collectors.toList());
 
         userDAO.setAccounts(newAccountDAOs);
@@ -63,6 +71,11 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
         accountDAO.setCreateDate(account.getCreateDate());
         accountDAO.setClosedDate(account.getClosedDate());
         accountDAO.setEmployee(account.getEmployee());
+        try{
+            accountDAO.setUserId(account.getUser().getUserId());
+        }catch(Exception e){
+            accountDAO.setUserId((long) -1);
+        }
 
         return  accountDAO;
     }

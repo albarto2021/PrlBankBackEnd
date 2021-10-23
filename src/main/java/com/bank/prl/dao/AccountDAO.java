@@ -1,6 +1,7 @@
 package com.bank.prl.dao;
 
 import com.bank.prl.model.AccountStatusType;
+import com.bank.prl.model.User;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,19 +25,17 @@ public class AccountDAO {
     private String accountStatusType;
     private Date createDate;
     private Date closedDate;
-    private String Employee;
+    private String employee;
+    private Long userId;
 
- //   private final List<String> accStatTypeList =
- //           Arrays.stream(AccountStatusType.values()).map(t->t.toString()).collect(Collectors.toList());
 
     public AccountDAO(String description, BigDecimal accountBalance, String accountType, String accountStatusType, Date createDate, Date closedDate, String employee) {
         this.description = description;
         this.accountBalance = accountBalance;
         this.accountType = accountType;
         this.accountStatusType = accountStatusType;
- //       this.accountStatusType = (accStatTypeList.contains(accountStatusType))? accountStatusType : null;
         this.createDate = createDate;
         this.closedDate = closedDate;
-        Employee = employee;
+        this.employee = employee;
     }
 }

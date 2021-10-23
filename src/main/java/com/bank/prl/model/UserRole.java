@@ -23,10 +23,21 @@ public class UserRole {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    public UserRole(Role role) {
+        this.role = role;
+    }
+
     public UserRole(User user, Role role){
         this.user = user;
         this.role = role;
     }
 
 
+    /*@Override
+    public String toString() {
+        return "UserRole{" +
+                "userRoleId=" + userRoleId +
+                ", role=" + role +
+                '}';
+    } */
 }

@@ -1,20 +1,28 @@
 package com.bank.prl.service.impl;
 
+import com.bank.prl.dao.AccountDAO;
 import com.bank.prl.model.Account;
 import com.bank.prl.model.User;
 import com.bank.prl.payload.request.TransferRequest;
 import com.bank.prl.repository.AccountRepo;
+import com.bank.prl.repository.UserRepo;
 import com.bank.prl.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountServiceImpl  implements AccountService {
 
     @Autowired
     AccountRepo accountRepo;
+
+    @Autowired
+    UserRepo userRepo;
 
     @Override
     public void createAccount(Account account) {
@@ -52,5 +60,25 @@ public class AccountServiceImpl  implements AccountService {
         accountRepo.save(toAccount);
         accountRepo.save(fromAccount);
 
+    }
+
+    @Override
+    public List<AccountDAO> getAllAccountDAOs() {
+        List<Account> allAccounts = (List<Account>) accountRepo.findAll();
+        UserDetailServiceImpl serviceImpl = new UserDetailServiceImpl();
+        return allAccounts.stream().map(serviceImpl::transformAccountDAO).collect(Collectors.toList());
+    }
+
+    @Override
+    public void assignAccount(Account account, User user, Long assignerId) {
+        account.setUser(user);
+        account.setEmployee(userRepo.findById(assignerId).get().getFirstName() +
+                " " + userRepo.findById(assignerId).get().getLastName());
+        accountRepo.save(account);
+    }
+
+    @Override
+    public void deleteAccount(Long accountId) {
+        accountRepo.deleteById(accountId);
     }
 }

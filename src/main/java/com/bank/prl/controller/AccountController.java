@@ -91,7 +91,7 @@ public class AccountController {
     public  ResponseEntity<Response> assignAccountUser(
                 @Valid @RequestBody AssignAccountForm assignAccountForm){
 
-        Response response=new Response();
+        Response response = new Response();
 
         System.out.println("ÇALIŞTI MI");
 
@@ -127,10 +127,7 @@ User user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("Not fo
 
         User user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
 
-
         accountService.transfer(transferRequest);
-
-
 
 
         response.setMessage("Account assigned successfuly");
@@ -140,6 +137,17 @@ User user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("Not fo
         UserDAO userDAO = userService.getUserDAO(user);
         response.setUserDAO(userDAO);
         //return new ResponseEntity<>(updateResponse, HttpStatus.OK);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/accounts/delete/{accountId}")
+    public ResponseEntity<Response> deleteAccount(@PathVariable Long accountId){
+        Response response = new Response();
+        accountService.deleteAccount(accountId);
+
+        response.setSuccess(true);
+        response.setMessage("Account has been successfully deleted");
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

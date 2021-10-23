@@ -26,7 +26,7 @@ public class Account {
     private String accountStatusType;
     private Date createDate;
     private Date closedDate;
-    private String Employee;
+    private String employee;
 
 
     @ManyToOne
@@ -45,7 +45,7 @@ public class Account {
         this.accountStatusType = accountStatusType;
         this.createDate = createDate;
         this.closedDate = closedDate;
-        Employee = employee;
+        this.employee = employee;
     }
 
 }
