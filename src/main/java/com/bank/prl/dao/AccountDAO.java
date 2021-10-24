@@ -23,13 +23,13 @@ public class AccountDAO {
     private BigDecimal accountBalance;
     private String accountType;
     private String accountStatusType;
-    private Date createDate;
-    private Date closedDate;
+    private String createDate;
+    private String closedDate;
     private String employee;
     private Long userId;
 
 
-    public AccountDAO(String description, BigDecimal accountBalance, String accountType, String accountStatusType, Date createDate, Date closedDate, String employee) {
+    public AccountDAO(String description, BigDecimal accountBalance, String accountType, String accountStatusType, String createDate, String closedDate, String employee) {
         this.description = description;
         this.accountBalance = accountBalance;
         this.accountType = accountType;

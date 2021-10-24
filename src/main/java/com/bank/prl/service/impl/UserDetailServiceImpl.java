@@ -1,3 +1,4 @@
+
 package com.bank.prl.service.impl;
 
 import com.bank.prl.dao.AccountDAO;
@@ -17,6 +18,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import static com.bank.prl.utils.DateUtil.getDateAsString;
+import static com.bank.prl.utils.DateUtil.SIMPLE_DATE_FORMAT;
+import static com.bank.prl.utils.DateUtil.SIMPLE_DATE_TIME_FORMAT;
 
 @Service
 public class UserDetailServiceImpl implements UserDetailsService, UserService {
@@ -38,7 +42,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
         userDAO.setPassword(user.getPassword());
 
         Boolean isAdmin = user.getUserRoles().
-                            stream().anyMatch( role -> role.getRole().getName().equals("ADMIN"));
+                stream().anyMatch( role -> role.getRole().getName().equals("ADMIN"));
         Boolean isEmployee = user.getUserRoles().
                 stream().anyMatch( role -> role.getRole().getName().equals("EMPLOYEE"));
         Boolean isUser;
@@ -55,7 +59,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
 
         userDAO.setAccounts(newAccountDAOs);
 //  private List<AccountDAO> accounts;   userDAO
-     // private List<Account> account; user
+        // private List<Account> account; user
         return userDAO;
     }
     @Override
@@ -68,8 +72,8 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
         accountDAO.setAccountBalance(account.getAccountBalance());
         accountDAO.setAccountType(account.getAccountType());
         accountDAO.setAccountStatusType(account.getAccountStatusType());
-        accountDAO.setCreateDate(account.getCreateDate());
-        accountDAO.setClosedDate(account.getClosedDate());
+        accountDAO.setCreateDate(getDateAsString(account.getCreateDate(),SIMPLE_DATE_FORMAT));
+        accountDAO.setClosedDate(getDateAsString(account.getClosedDate(),SIMPLE_DATE_FORMAT));
         accountDAO.setEmployee(account.getEmployee());
         try{
             accountDAO.setUserId(account.getUser().getUserId());

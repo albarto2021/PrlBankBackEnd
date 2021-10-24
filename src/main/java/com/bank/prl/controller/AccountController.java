@@ -44,12 +44,12 @@ public class AccountController {
 
 
 
-    @PostMapping("/createAccount/{id}")
-    public ResponseEntity<Response> createAccount(@Valid @PathVariable Long id,
+    @PostMapping("/createAccount")
+    public ResponseEntity<Response> createAccount(@Valid
                                                   @RequestBody CreateAccountForm createAccountForm){
 
         Response response = new Response();
-        System.out.println("deneme");
+        //System.out.println("deneme");
         //User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
     // OLUP OLMAMASI DÜŞÜNÜLECEK
@@ -59,7 +59,8 @@ public class AccountController {
   //          response.setSuccess(false);
   //          return new ResponseEntity<>(response, HttpStatus.OK);
   //      }
-        User user = userRepo.findById(id).orElseThrow(()->new RuntimeException("Not found"));
+        // SILINECEK
+        // User user = userRepo.findById(id).orElseThrow(()->new RuntimeException("Not found"));
 
 
 
