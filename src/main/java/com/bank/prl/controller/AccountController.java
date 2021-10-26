@@ -1,18 +1,25 @@
 package com.bank.prl.controller;
 
 
+import com.bank.prl.dao.AccountDAO;
+import com.bank.prl.dao.TransactionDAO;
 import com.bank.prl.dao.UserDAO;
 import com.bank.prl.model.Account;
 import com.bank.prl.model.User;
 import com.bank.prl.payload.request.AssignAccountForm;
 import com.bank.prl.payload.request.CreateAccountForm;
+import com.bank.prl.payload.request.TransactionRequestForm;
 import com.bank.prl.payload.request.TransferRequest;
 import com.bank.prl.payload.response.Response;
+import com.bank.prl.payload.response.TransactionResponse;
 import com.bank.prl.repository.AccountRepo;
 import com.bank.prl.repository.UserRepo;
 import com.bank.prl.service.AccountService;
+import com.bank.prl.service.TransactionService;
 import com.bank.prl.service.UserService;
+import com.bank.prl.service.impl.AccountServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,7 +34,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
-@RequestMapping("/auth") //YAZILACAK!!!!!!!!!!!!!!
+@RequestMapping("/accounts") //YAZILACAK!!!!!!!!!!!!!!
 public class AccountController {
 
     @Autowired
@@ -41,7 +48,9 @@ public class AccountController {
 
     @Autowired
     UserService userService;
-
+    
+    @Autowired
+    TransactionService transactionService;
 
 
     @PostMapping("/createAccount")
@@ -88,39 +97,61 @@ public class AccountController {
 
     }
 
-    @PatchMapping("/auth/assignAccountUser")
-    public  ResponseEntity<Response> assignAccountUser(
-                @Valid @RequestBody AssignAccountForm assignAccountForm){
+    @PostMapping("/deposit")
+    public  ResponseEntity<Response> deposit(
+            @Valid @RequestBody TransactionRequestForm request){
 
         Response response = new Response();
+        Account account = accountRepo.findById(request.getAccountDescriptions()).get();
 
-        System.out.println("ÇALIŞTI MI");
+        User user = userRepo.findById(account.getUser().getUserId()).get();
 
-        User user= userRepo.findById(assignAccountForm.getUser().getUserId()).orElseThrow(
-                ()->new UsernameNotFoundException("User not found")
-        );
-        Account account = accountRepo.findById(assignAccountForm.getAccount().getId()).orElseThrow(
-                ()-> new RuntimeException("Account not fount")
-        );
+        double amount = request.getAmount();
+        if( amount > 0){
+            accountService.deposit(request);
 
-        account.setUser(user);
+            response.setMessage("Amount successfully deposited");
+            response.setSuccess(true);
+            UserDAO userDAO = userService.getUserDAO(user);
+            response.setUserDAO(userDAO);
 
-        accountService.createAccount(account);
+            return new ResponseEntity<>(response, HttpStatus.OK);
 
-        response.setMessage("Account assigned successfuly");
-        response.setSuccess(true);
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            response.setMessage("Amount should be greater than 0");
+            response.setSuccess(false);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
 
     }
-/*
-User user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
-        user.setFirstName(updateForm.getFirstName());
-        user.setLastName(updateForm.getLastName());
-        user.setEmail(updateForm.getEmail());
 
-        userService.updateUser(user);
-*/
+    @PostMapping("/withdraw")
+    public ResponseEntity<Response> withdraw(@RequestBody TransactionRequestForm request){
+        Response response = new Response();
+
+        Account account = accountRepo.findById(request.getAccountDescriptions()).get();
+        User user = userRepo.findById(account.getUser().getUserId()).get();
+
+        double amount = request.getAmount();
+
+        if( account.getAccountBalance().doubleValue() >= amount && amount > 0 ){
+            accountService.withdraw(request);
+            response.setMessage("Amount successfully deposited");
+            response.setSuccess(true);
+            UserDAO userDAO = userService.getUserDAO(user);
+            response.setUserDAO(userDAO);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        } else {
+
+            response.setMessage("Amount should be greater than 0");
+            response.setSuccess(false);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
     @PostMapping("/moneyTransfer/{id}")
     public ResponseEntity<Response> accountTransfer(@Valid @PathVariable Long id, @RequestBody TransferRequest transferRequest){
 
@@ -141,8 +172,19 @@ User user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("Not fo
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    
+    @GetMapping("/transactions")
+    public ResponseEntity<List<TransactionDAO>> getAllTransactions(){
 
-    @DeleteMapping("/accounts/delete/{accountId}")
+        List<TransactionDAO> allTransactionDAOs = transactionService.getAllTransactionDAOs();
+        TransactionResponse transactionResponse=new TransactionResponse();
+        transactionResponse.setAllTransactionDAOList(allTransactionDAOs);
+
+        return new ResponseEntity<>(allTransactionDAOs, HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/delete/{accountId}")
     public ResponseEntity<Response> deleteAccount(@PathVariable Long accountId){
         Response response = new Response();
         accountService.deleteAccount(accountId);
@@ -152,6 +194,7 @@ User user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("Not fo
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
+    
+  
 
 }

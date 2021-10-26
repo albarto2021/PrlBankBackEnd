@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/admin")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AdminController {
 
@@ -51,7 +51,7 @@ public class AdminController {
 
 
 
-    @GetMapping("/admin/allusers")
+    @GetMapping("/allusers")
     public ResponseEntity<UserResponse> getAllUsers(){
         UserResponse userResponse = new UserResponse();
         List<UserDAO> userDAOList = userService.getAllUsers();
@@ -59,7 +59,7 @@ public class AdminController {
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 
-    @DeleteMapping("/admin/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Response> deleteUser(@PathVariable Long id){
         Response response = new Response();
 
@@ -71,7 +71,7 @@ public class AdminController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/admin/singleUserDetails/{id}")
+    @GetMapping("/singleUserDetails/{id}")
     public ResponseEntity<Response> getSingleUser(@PathVariable Long id){
         Response response = new Response();
         UserDAO userDAO = userService.getUserDAOById(id);
@@ -82,8 +82,9 @@ public class AdminController {
 
     }
 
-    @GetMapping("/admin/edituser")
+    @GetMapping("/edituser")
     public ResponseEntity<List<AccountDAO>> getAllAccounts(){
+
         List<AccountDAO> allAccountDAOs = accountService.getAllAccountDAOs();
         return new ResponseEntity<>(allAccountDAOs, HttpStatus.OK);
     }
@@ -91,7 +92,7 @@ public class AdminController {
 
 
 
-    @PatchMapping("/admin/updateSingleUserInfo")
+    @PatchMapping("/updateSingleUserInfo")
     public ResponseEntity<UpdateResponse> updateSingleUserInfo(@Valid @RequestBody SingleUserUpdateForm singleUserUpdateForm){
 
     	UpdateResponse updateResponse = new UpdateResponse();

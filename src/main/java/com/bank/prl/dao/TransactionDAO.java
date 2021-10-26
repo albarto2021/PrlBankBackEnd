@@ -13,7 +13,8 @@ public class TransactionDAO {
     private String type;
     private double amount;
     private BigDecimal availableBalance;
-    private Boolean isTransfer;
+    private Long userId;
+    private Long accountId;
 
 
 }

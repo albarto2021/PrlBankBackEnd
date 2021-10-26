@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-@RequestMapping("/auth")
+@RequestMapping("/users")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class UpdateController {

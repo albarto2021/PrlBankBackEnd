@@ -33,7 +33,9 @@ public class UserDAO {
 
     /////////////
     //private Long accountNumber;
-    //private BigDecimal accountBalance;
-    //private List<TransactionDAO> transactions;
+    //private BigDecimal userBalance;
+    private List<TransactionDAO> transactions;
     private List<AccountDAO> accounts;
+    private Long totalUsers;
+    private Double totalBalance;
 }

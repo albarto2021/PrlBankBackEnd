@@ -20,20 +20,25 @@ public class Transaction {
     private String type;
     private double amount;
     private BigDecimal availableBalance;
-    private Boolean isTransfer;
+    //private Boolean isTransfer;
 
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
 
+    /*@ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;*/
+    private Long userId;
+
     public Transaction(Date date, String description, String type, double amount,
-                       BigDecimal availableBalance, Boolean isTransfer, Account account) {
+                       BigDecimal availableBalance, Account account, Long userId) {
         this.date = date;
         this.description = description;
         this.type = type;
         this.amount = amount;
         this.availableBalance = availableBalance;
-        this.isTransfer = isTransfer;
         this.account = account;
+        this.userId=userId;
     }
 }

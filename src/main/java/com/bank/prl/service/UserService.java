@@ -1,8 +1,10 @@
 package com.bank.prl.service;
 
 import com.bank.prl.dao.AccountDAO;
+import com.bank.prl.dao.TransactionDAO;
 import com.bank.prl.dao.UserDAO;
 import com.bank.prl.model.Account;
+import com.bank.prl.model.Transaction;
 import com.bank.prl.model.User;
 import com.bank.prl.service.impl.UserDetailServiceImpl;
 
@@ -23,4 +25,5 @@ public interface UserService {
     UserDetails loadUserByUsername(String ssn);
     AccountDAO transformAccountDAO(Account account);
     UserDAO getUserDAOById(Long id);
+    TransactionDAO transformTransactionDAO(Transaction tran);
 }

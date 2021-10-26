@@ -16,13 +16,15 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
+@SequenceGenerator(name = "USER_SEQUENCE_NAME", sequenceName = "USER_SEQUENCE_NAME", initialValue =3500)
 @Table(name = "users")
 public class User implements UserDetails {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQUENCE_NAME")
     private Long userId;
 
     @Column(unique = true)
@@ -43,6 +45,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Account> account;
+
+    //@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //private List<Transaction> transactions;
 
     public User(String ssn, String firstName, String lastName, String dob,
                 String email, String username, String password) {
@@ -67,8 +72,10 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return ssn;
     }
+
+    public String getUsernameDAO(){ return username; }
 
     @Override
     public boolean isAccountNonExpired() {

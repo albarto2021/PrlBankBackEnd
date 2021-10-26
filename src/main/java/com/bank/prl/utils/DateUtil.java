@@ -11,6 +11,7 @@ public class DateUtil {
 
     public static final String SIMPLE_DATE_TIME_FORMAT = "dd/MM/yyyy hh:mm";
     public static final String SIMPLE_DATE_FORMAT = "dd/MM/yyyy";
+    public static final String SIMPLE_TIME_FORMAT = "hh:mm";
 
     public static String getDateAsString(Date date, String pattern){
         SimpleDateFormat format = new SimpleDateFormat(pattern);

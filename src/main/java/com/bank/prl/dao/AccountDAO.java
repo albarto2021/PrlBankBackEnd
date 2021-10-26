@@ -27,6 +27,8 @@ public class AccountDAO {
     private String closedDate;
     private String employee;
     private Long userId;
+    
+    private List<TransactionDAO> transactions;
 
 
     public AccountDAO(String description, BigDecimal accountBalance, String accountType, String accountStatusType, String createDate, String closedDate, String employee) {
