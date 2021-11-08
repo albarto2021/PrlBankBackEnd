@@ -58,40 +58,15 @@ public class AccountController {
                                                   @RequestBody CreateAccountForm createAccountForm){
 
         Response response = new Response();
-        //System.out.println("deneme");
-        //User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        try {
+            accountService.createAccount(createAccountForm);
 
-    // OLUP OLMAMASI DÜŞÜNÜLECEK
-  //      if (accountRepo.existsByDescription(createAccountForm.getDescription()) &&
-  //          accountRepo.existsByAccountType(createAccountForm.getAccountType())){
-  //          response.setMessage("Error: Account is already created");
-  //          response.setSuccess(false);
-  //          return new ResponseEntity<>(response, HttpStatus.OK);
-  //      }
-        // SILINECEK
-        // User user = userRepo.findById(id).orElseThrow(()->new RuntimeException("Not found"));
-
-
-
-        //Create a new account
-        Account account = new Account(
-                createAccountForm.getDescription(),
-                createAccountForm.getAccountBalance(),
-                createAccountForm.getAccountType(),
-                createAccountForm.getAccountStatusType(),
-                createAccountForm.getCreateDate(),
-                createAccountForm.getClosedDate(),
-                createAccountForm.getEmployee()
-        );
-
-        //user.setAccount((List<Account>) account);
-
-
-        accountService.createAccount(account);
-
-        response.setMessage("Account created successfuly");
-        response.setSuccess(true);
-
+            response.setMessage("Account created successfuly");
+            response.setSuccess(true);
+        }catch (Exception e){
+            response.setMessage("Account not created ");
+            response.setSuccess(false);
+        }
 
         return new ResponseEntity<>(response, HttpStatus.OK);
 

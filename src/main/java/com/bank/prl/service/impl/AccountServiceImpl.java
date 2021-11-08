@@ -1,10 +1,8 @@
 package com.bank.prl.service.impl;
 
 import com.bank.prl.dao.AccountDAO;
-import com.bank.prl.model.Account;
-import com.bank.prl.model.Transaction;
-import com.bank.prl.model.TransactionType;
-import com.bank.prl.model.User;
+import com.bank.prl.model.*;
+import com.bank.prl.payload.request.CreateAccountForm;
 import com.bank.prl.payload.request.TransactionRequestForm;
 import com.bank.prl.payload.request.TransferRequest;
 import com.bank.prl.repository.AccountRepo;
@@ -14,6 +12,10 @@ import com.bank.prl.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import static com.bank.prl.utils.DateUtil.getDateAsString;
+import static com.bank.prl.utils.DateUtil.SIMPLE_DATE_FORMAT;
+import static com.bank.prl.utils.DateUtil.SIMPLE_TIME_FORMAT;
+import static com.bank.prl.utils.DateUtil.SIMPLE_DATE_TIME_FORMAT;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -34,7 +36,19 @@ public class AccountServiceImpl  implements AccountService {
 
 
     @Override
-    public void createAccount(Account account) {
+    public void createAccount(CreateAccountForm createAccountForm) {
+
+        //Create a new account
+        Account account = new Account(
+                createAccountForm.getDescription(),
+                createAccountForm.getAccountBalance(),
+                createAccountForm.getAccountType(),
+                createAccountForm.getAccountStatusType(),
+                createAccountForm.getCreateDate(),
+                createAccountForm.getClosedDate(),
+                createAccountForm.getEmployee()
+        );
+
         accountRepo.save(account);
 
     }

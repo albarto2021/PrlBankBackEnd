@@ -24,7 +24,10 @@ public class JwtUtil {
     @Value("${bank.app.SECRET_KEY}")
     private String SECRET_KEY;
 
-    public String extractUsername(String token) { return extractClaim(token, Claims::getSubject);}
+    public String extractUsername(String token) {
+
+        return extractClaim(token, Claims::getSubject);
+    }
 
     public String extractSsn(String token) { return extractClaim(token, Claims::getSubject);}
 
@@ -39,7 +42,9 @@ public class JwtUtil {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
 
-    private Boolean isTokenExpired(String token) { return extractExpiration(token).before(new Date());}
+    private Boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
 
     public String generateToken(Authentication authentication) {
         User user = (User) authentication.getPrincipal();

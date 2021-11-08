@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 public class AccountDAO {
+
     private Long id;
 
     private String description;
@@ -31,13 +32,17 @@ public class AccountDAO {
     private List<TransactionDAO> transactions;
 
 
-    public AccountDAO(String description, BigDecimal accountBalance, String accountType, String accountStatusType, String createDate, String closedDate, String employee) {
+    public AccountDAO(String description, BigDecimal accountBalance,
+                      String accountType, String accountStatusType,
+                      String createDate, String closedDate, String employee) {
         this.description = description;
         this.accountBalance = accountBalance;
         this.accountType = accountType;
         this.accountStatusType = accountStatusType;
         this.createDate = createDate;
         this.closedDate = closedDate;
+
         this.employee = employee;
+
     }
 }

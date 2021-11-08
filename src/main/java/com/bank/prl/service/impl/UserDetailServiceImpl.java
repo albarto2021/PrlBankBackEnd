@@ -172,12 +172,14 @@ public class UserDetailServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public UserDAO getUserDAOByName(String username) {
-        UserDAO userDAO = null;
+       UserDAO userDAO = null;
+
         Optional<User> optionalUser = userRepo.findByUsername(username);
         if(optionalUser.isPresent()){
             userDAO = getUserDAO(optionalUser.get());
         }
         return userDAO;
+
     }
 
     @Override
